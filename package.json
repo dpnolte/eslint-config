@@ -1,5 +1,5 @@
 {
-  "name": "derk-eslint-config",
+  "name": "eslint-config-derk",
   "version": "0.0.1",
   "description": "eslint + typescript config",
   "main": "index.js",
