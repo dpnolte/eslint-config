@@ -1,4 +1,4 @@
-const isModuleInstalled = moduleName => {
+const isModuleInstalled = (moduleName) => {
   try {
     const modulePath = require.resolve(moduleName);
     return !!modulePath;
@@ -24,7 +24,17 @@ const reactRules = hasReact ? require('./reactRules') : {};
 const reactNativeRules = hasReactNative ? require('./reactNativeRules') : {};
 const globals = hasReactNative ? require('./reactNativeGlobals') : {};
 
-const ignorePatterns = ['node_modules/', 'ios/', 'android', '**/*.d.ts'];
+const ignorePatterns = [
+  'node_modules/',
+  'ios/',
+  'android',
+  '**/*.d.ts',
+  'babel.config.js',
+  'prettier.config.js',
+  'metro.config.js',
+  'dist/',
+  'jest.config.js',
+];
 
 const eslintConfig = {
   env: {
