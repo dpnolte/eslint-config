@@ -41,24 +41,6 @@ if (!fs.existsSync(packageJsonPath)) {
   console.log('❌Error: no package.json found at current dir');
   throw new Error('File not found: package.json');
 }
-// const packageConfig = require(packageJsonPath);
-
-// packageConfig.eslintConfig = {
-//   extends: 'derk-eslint-config',
-// };
-
-// packageConfig.prettier = {
-//   trailingComma: 'es5',
-//   singleQuote: true,
-//   printWidth: 100,
-//   arrowParens: 'avoid',
-// };
-
-// fs.writeFileSync(packageJsonPath, JSON.stringify(packageConfig, null, 2));
-
-// console.log(
-//   `-\tAdded eslint and prettier config to ${path.relative(PROJECT_DIR, packageJsonPath)}`
-// );
 
 const files = fs.readdirSync(TEMPLATE_DIR);
 files.forEach(f => {
