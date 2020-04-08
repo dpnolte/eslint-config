@@ -17,31 +17,26 @@ const hasDetox = hasReactNative && isModuleInstalled('detox');
 const typescriptProjectPath = path.resolve(process.cwd(), 'tsconfig.json');
 const isTypescriptProject = fs.existsSync(typescriptProjectPath);
 
-const typescriptSettings = isTypescriptProject
-  ? {
-      // Apply special parsing for TypeScript files
-      'import/parsers': {
-        '@typescript-eslint/parser': ['.ts', '.tsx', '.d.ts'],
-      },
-      // Append 'ts' extensions to Airbnb 'import/resolver' setting
-      'import/resolver': {
-        node: {
-          extensions: ['.mjs', '.js', '.ts', '.tsx', '.json'],
-        },
-      },
-      // Append 'ts' extensions to Airbnb 'import/extensions' setting
-      'import/extensions': ['.js', '.mjs', '.jsx', '.ts', '.tsx'],
-    }
-  : {};
+const settings = {
+  // Apply special parsing for TypeScript files
+  'import/parsers': {
+    '@typescript-eslint/parser': ['.ts', '.tsx', '.d.ts'],
+  },
+  // Append 'ts' extensions to Airbnb 'import/resolver' setting
+  'import/resolver': {
+    node: {
+      extensions: ['.mjs', '.js', '.ts', '.tsx', '.json'],
+    },
+  },
+  // Append 'ts' extensions to Airbnb 'import/extensions' setting
+  'import/extensions': ['.js', '.mjs', '.jsx', '.ts', '.tsx'],
+};
 
-const settings = hasReact
-  ? {
-      react: {
-        version: 'detect',
-      },
-      ...typescriptSettings,
-    }
-  : typescriptSettings;
+if (hasReact) {
+  settings.react = {
+    version: 'detect',
+  };
+}
 
 const globals = hasReactNative ? require('./reactNativeGlobals') : {};
 const reactNativeRules = hasReactNative ? require('./reactNativeRules') : {};
@@ -57,23 +52,15 @@ const ignorePatterns = [
   'dist/',
   'build/',
   'jest.config.js',
+  'serviceWorker.js',
 ];
 
-// const typescriptConfig = [
-//   hasReact ? 'airbnb-typescript' : 'airbnb-typescript/base',
-//   'plugin:@typescript-eslint/recommended',
-// ].filter(Boolean);
-// const jsConfig = [hasReact ? 'airbnb' : 'airbnb/base'].filter(Boolean);
-// const commonConfig = [
-//   'plugin:eslint-comments/recommended',
-//   'plugin:jest/recommended',
-//   'plugin:promise/recommended',
-//   'plugin:unicorn/recommended',
-//   hasReact && 'airbnb/hooks',
-//   'prettier',
-//   hasReact && 'prettier/react',
-//   isTypescriptProject && 'prettier/@typescript-eslint',
-// ].filter(Boolean);
+const parserOptions = isTypescriptProject
+  ? {
+      project: typescriptProjectPath,
+      sourceType: 'module',
+    }
+  : undefined;
 
 module.exports = {
   env: {
@@ -110,10 +97,7 @@ module.exports = {
     hasReact && 'prettier/react',
   ].filter(Boolean),
 
-  parserOptions: {
-    project: isTypescriptProject ? typescriptProjectPath : undefined,
-    sourceType: isTypescriptProject ? 'module' : undefined,
-  },
+  parserOptions,
 
   rules: {
     // import ruels
