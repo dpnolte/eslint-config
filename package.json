@@ -10,7 +10,8 @@
     "eslint-config": "./bin/cli.js"
   },
   "scripts": {
-    "eslint-config": "node scripts/install.js"
+    "eslint-config": "node scripts/install.js",
+    "prepublishOnly": "yarn eslint ."
   },
   "dependencies": {
     "@react-native-community/eslint-plugin": "^1.0.0",
