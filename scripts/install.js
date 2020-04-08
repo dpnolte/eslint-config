@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-var-requires, no-console, import/no-extraneous-dependencies, import/no-commonjs, import/no-extraneous-dependencies */
 const fs = require('fs-extra');
 const path = require('path');
 const stripIndent = require('strip-indent');
@@ -20,7 +19,7 @@ const ensureThatFileDoesNotExist = p => {
 const writeTemplateFile = (templateFilePath, fileName) => {
   if (!fs.existsSync(templateFilePath)) {
     console.log(`-\tTemplate file of '${fileName}' not found @ ${templateFilePath}`);
-    process.exit(1);
+    throw new Error('File not found');
   }
 
   const targetFilePath = path.resolve(PROJECT_DIR, fileName);
@@ -35,35 +34,36 @@ const writeTemplateFile = (templateFilePath, fileName) => {
 };
 
 const projectRealPath = fs.realpathSync(process.cwd());
-const resolveCurrentDir = relativePath => path.resolve(projectRealPath, relativePath);
+const resolveCurrentDirectory = relativePath => path.resolve(projectRealPath, relativePath);
 
-const packageJsonPath = resolveCurrentDir('package.json');
+const packageJsonPath = resolveCurrentDirectory('package.json');
 if (!fs.existsSync(packageJsonPath)) {
   console.log('❌Error: no package.json found at current dir');
-  process.exit(1);
+  throw new Error('File not found: package.json');
 }
-const packageConfig = require(packageJsonPath);
+// const packageConfig = require(packageJsonPath);
 
-packageConfig.eslintConfig = {
-  extends: 'derk-eslint-config',
-};
+// packageConfig.eslintConfig = {
+//   extends: 'derk-eslint-config',
+// };
 
-packageConfig.prettier = {
-  trailingComma: 'es5',
-  singleQuote: true,
-  printWidth: 100,
-};
+// packageConfig.prettier = {
+//   trailingComma: 'es5',
+//   singleQuote: true,
+//   printWidth: 100,
+//   arrowParens: 'avoid',
+// };
 
-fs.writeFileSync(packageJsonPath, JSON.stringify(packageConfig, null, 2));
+// fs.writeFileSync(packageJsonPath, JSON.stringify(packageConfig, null, 2));
 
-console.log(
-  `-\tAdded eslint and prettier config to ${path.relative(PROJECT_DIR, packageJsonPath)}`
-);
+// console.log(
+//   `-\tAdded eslint and prettier config to ${path.relative(PROJECT_DIR, packageJsonPath)}`
+// );
 
 const files = fs.readdirSync(TEMPLATE_DIR);
 files.forEach(f => {
   if (f.endsWith(TEMPLATE_EXT)) {
-    const fileName = f.substr(0, f.length - TEMPLATE_EXT.length);
+    const fileName = f.slice(0, f.length - TEMPLATE_EXT.length);
     const templatePath = path.resolve(TEMPLATE_DIR, f);
     writeTemplateFile(templatePath, fileName);
   }
