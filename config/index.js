@@ -40,6 +40,8 @@ if (hasReact) {
 
 const globals = hasReactNative ? require('./reactNativeGlobals') : {};
 const reactNativeRules = hasReactNative ? require('./reactNativeRules') : {};
+const reactTypescriptRules =
+  hasReact && isTypescriptProject ? require('./reactTypescriptRules') : {};
 
 const ignorePatterns = [
   'node_modules/',
@@ -147,11 +149,7 @@ module.exports = {
         // disable prettier formattings rules
         ...require('eslint-config-prettier/@typescript-eslint').rules,
 
-        // Append 'tsx' to Airbnb 'react/jsx-filename-extension' rule
-        // https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/jsx-filename-extension.md
-        'react/jsx-filename-extension': hasReact
-          ? ['error', { extensions: ['.jsx', '.tsx'] }]
-          : undefined,
+        ...reactTypescriptRules,
 
         // Need variables off for being able to use styles before defining it with Stylesheet.create
         // https://github.com/Intellicode/eslint-plugin-react-native/issues/22
