@@ -55,6 +55,7 @@ const ignorePatterns = [
   'build/',
   'jest.config.js',
   'serviceWorker.js',
+  'rollup.config.js',
 ];
 
 const parserOptions = isTypescriptProject
