@@ -197,5 +197,21 @@ module.exports = {
         'react-native/no-inline-styles': 0,
       },
     },
+    // allow default export in stores for CSF and in indexes for code splitting
+    {
+      files: [
+        'index.ts',
+        'index.tsx',
+        'index.js',
+        'index.jsx',
+        '*.stories.ts',
+        '*.stories.tsx',
+        '*.stories.js',
+        '*.stories.jsx',
+      ],
+      rules: {
+        'import/no-default-export': 'off',
+      },
+    },
   ].filter(Boolean),
 };

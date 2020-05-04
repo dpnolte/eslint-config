@@ -1,6 +1,6 @@
 {
   "name": "eslint-config-derk",
-  "version": "0.0.12",
+  "version": "0.0.13",
   "description": "eslint + typescript config",
   "main": "index.js",
   "author": "dpnolte@gmail.com",
